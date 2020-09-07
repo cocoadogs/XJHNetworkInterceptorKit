@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '8.0'
+
+target 'XJHNetworkInterceptorKit_Example' do
+  pod 'XJHNetworkInterceptorKit', :path => '../'
+
+  target 'XJHNetworkInterceptorKit_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
