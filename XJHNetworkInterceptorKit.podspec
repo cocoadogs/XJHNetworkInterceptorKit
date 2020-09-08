@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'XJHNetworkInterceptorKit'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of XJHNetworkInterceptorKit.'
+  s.summary          = 'XJHNetworkInterceptorKit is a Kit of URLSession Interceptor.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -17,9 +17,7 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
-  s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
+  s.description      = 'XJHNetworkInterceptorKit is a Kit of URLSession Interceptor.@XJHNetworkInterceptorKit'
 
   s.homepage         = 'https://github.com/cocoadogs/XJHNetworkInterceptorKit'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
@@ -29,8 +27,69 @@ TODO: Add long description of the pod here.
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
-
-  s.source_files = 'XJHNetworkInterceptorKit/Classes/**/*'
+  
+  s.public_header_files = 'XJHNetworkInterceptorKit/XJHNetworkInterceptorKit.h'
+  s.source_files = 'XJHNetworkInterceptorKit/XJHNetworkInterceptorKit.h'
+  
+  s.subspec 'Manager' do |ss|
+    ss.public_header_files = 'XJHNetworkInterceptorKit/XJHNetFlowManager.h'
+    ss.source_files = 'XJHNetworkInterceptorKit/XJHNetFlowManager.{h,m}','XJHNetworkInterceptorKit/XJHURLProtocol.{h,m}','XJHNetworkInterceptorKit/XJHNetworkInterceptor.{h,m}','XJHNetworkInterceptorKit/NSURLSessionConfiguration+XJH.{h,M}'
+    ss.dependency 'XJHNetworkInterceptorKit/DataSource'
+    ss.dependency 'XJHNetworkInterceptorKit/Demux'
+    ss.dependency 'XJHNetworkInterceptorKit/Model'
+    ss.dependency 'XJHNetworkInterceptorKit/Util'
+  end
+  
+  s.subspec 'DataSource' do |ss|
+    ss.public_header_files = 'XJHNetworkInterceptorKit/XJHNetFlowDataSource.h'
+    ss.source_files = 'XJHNetworkInterceptorKit/XJHNetFlowDataSource.{h,m}'
+    ss.dependency 'XJHNetworkInterceptorKit/Model'
+  end
+  
+  
+  s.subspec 'Controller' do |ss|
+    ss.public_header_files = 'XJHNetworkInterceptorKit/XJHRequestResponseViewController.h'
+    ss.source_files = 'XJHNetworkInterceptorKit/XJHRequestResponseViewController.{h,m}','XJHNetworkInterceptorKit/XJHRequestResponseSearchViewController.{h,m}','XJHNetworkInterceptorKit/XJHRequestResponseDetailViewController.{h,m}'
+    ss.dependency 'XJHNetworkInterceptorKit/Cell'
+    ss.dependency 'XJHNetworkInterceptorKit/View'
+    ss.dependency 'XJHNetworkInterceptorKit/ViewModel'
+  end
+  
+  s.subspec 'Cell' do |ss|
+    ss.public_header_files = 'XJHNetworkInterceptorKit/XJHNetworkInterceptorViewCell.h','XJHNetworkInterceptorKit/XJHNetFlowDetailViewCell.h'
+    ss.source_files = 'XJHNetworkInterceptorKit/XJHNetworkInterceptorViewCell.{h,m}','XJHNetworkInterceptorKit/XJHNetFlowDetailViewCell.{h,m}'
+    ss.dependency 'XJHNetworkInterceptorKit/ViewModel'
+  end
+  
+  s.subspec 'View' do |ss|
+    ss.public_header_files = 'XJHNetworkInterceptorKit/XJHNetFlowDetailSegment.h'
+    ss.source_files = 'XJHNetworkInterceptorKit/XJHNetFlowDetailSegment.{h,m}'
+  end
+  
+  s.subspec 'ViewModel' do |ss|
+    ss.public_header_files = 'XJHNetworkInterceptorKit/XJHRequestResponseViewModel.h','XJHNetworkInterceptorKit/XJHRequestResponseItemViewModel.h'
+    ss.source_files = 'XJHNetworkInterceptorKit/XJHRequestResponseViewModel.{h,m}','XJHNetworkInterceptorKit/XJHRequestResponseItemViewModel.{h,m}'
+    ss.dependency 'XJHNetworkInterceptorKit/Model'
+    ss.dependency 'XJHNetworkInterceptorKit/DataSource'
+  end
+  
+  s.subspec 'Demux' do |ss|
+    ss.public_header_files = 'XJHNetworkInterceptorKit/XJHURLSessionDemux.h'
+    ss.source_files = 'XJHNetworkInterceptorKit/XJHURLSessionDemux.{h,m}'
+  end
+  
+  s.subspec 'Model' do |ss|
+    ss.public_header_files = 'XJHNetworkInterceptorKit/XJHNetFlowHttpModel.h'
+    ss.source_files = 'XJHNetworkInterceptorKit/XJHNetFlowHttpModel.{h,m}'
+    ss.dependency 'XJHNetworkInterceptorKit/Util'
+  end
+  
+  s.subspec 'Util' do |ss|
+    ss.public_header_files = 'XJHNetworkInterceptorKit/XJHUrlUtil.h','XJHNetworkInterceptorKit/NSObject+XJHSwizzle.h','XJHNetworkInterceptorKit/NSURLRequest+XJH.h'
+    ss.source_files = 'XJHNetworkInterceptorKit/XJHUrlUtil.{h,m}','XJHNetworkInterceptorKit/NSObject+XJHSwizzle.{h,m}','XJHNetworkInterceptorKit/NSURLRequest+XJH.{h,m}'
+  end
+  
+  s.dependency 'ReactiveObjC', '>= 3.1.1'
   
   # s.resource_bundles = {
   #   'XJHNetworkInterceptorKit' => ['XJHNetworkInterceptorKit/Assets/*.png']

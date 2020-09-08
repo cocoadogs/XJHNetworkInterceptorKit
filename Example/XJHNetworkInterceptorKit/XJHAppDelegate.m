@@ -7,12 +7,22 @@
 //
 
 #import "XJHAppDelegate.h"
+#import "XJHViewController.h"
+
+#import <XJHNetworkInterceptorKit/XJHNetFlowManager.h>
+
 
 @implementation XJHAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [[XJHNetFlowManager sharedInstance] canInterceptNetFlow:YES];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[XJHViewController alloc] init]];
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

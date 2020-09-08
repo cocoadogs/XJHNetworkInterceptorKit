@@ -21,7 +21,6 @@
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
-		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
 		AED8B3336914887A58331E7B /* Pods_XJHNetworkInterceptorKit_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFB7B6FC2B525734F8528BE5 /* Pods_XJHNetworkInterceptorKit_Tests.framework */; };
 		E113F54CACFB0161F1E9E285 /* Pods_XJHNetworkInterceptorKit_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFEE3B146DF9EDF106E9E2EA /* Pods_XJHNetworkInterceptorKit_Example.framework */; };
 /* End PBXBuildFile section */
@@ -37,7 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		14F451A85A8F5D7279DBF914 /* XJHNetworkInterceptorKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = XJHNetworkInterceptorKit.podspec; path = ../XJHNetworkInterceptorKit.podspec; sourceTree = "<group>"; };
+		14F451A85A8F5D7279DBF914 /* XJHNetworkInterceptorKit.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = XJHNetworkInterceptorKit.podspec; path = ../XJHNetworkInterceptorKit.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		6003F58A195388D20070C39A /* XJHNetworkInterceptorKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XJHNetworkInterceptorKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -58,11 +57,10 @@
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		7251842787B696A6802A6F10 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		7251842787B696A6802A6F10 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		75DFE2B5DBFDF8E9B7CE5DD6 /* Pods-XJHNetworkInterceptorKit_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XJHNetworkInterceptorKit_Tests.debug.xcconfig"; path = "Target Support Files/Pods-XJHNetworkInterceptorKit_Tests/Pods-XJHNetworkInterceptorKit_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B720E390019BDA9C168E1C6A /* Pods-XJHNetworkInterceptorKit_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XJHNetworkInterceptorKit_Example.release.xcconfig"; path = "Target Support Files/Pods-XJHNetworkInterceptorKit_Example/Pods-XJHNetworkInterceptorKit_Example.release.xcconfig"; sourceTree = "<group>"; };
-		C29DAA4631021A8C8C715B3A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		C29DAA4631021A8C8C715B3A /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		D4DBB20BABE1451C73AD0F9D /* Pods-XJHNetworkInterceptorKit_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XJHNetworkInterceptorKit_Tests.release.xcconfig"; path = "Target Support Files/Pods-XJHNetworkInterceptorKit_Tests/Pods-XJHNetworkInterceptorKit_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		E602A59309C528361314A53E /* Pods-XJHNetworkInterceptorKit_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XJHNetworkInterceptorKit_Example.debug.xcconfig"; path = "Target Support Files/Pods-XJHNetworkInterceptorKit_Example/Pods-XJHNetworkInterceptorKit_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		FFB7B6FC2B525734F8528BE5 /* Pods_XJHNetworkInterceptorKit_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XJHNetworkInterceptorKit_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,7 +132,6 @@
 			children = (
 				6003F59C195388D20070C39A /* XJHAppDelegate.h */,
 				6003F59D195388D20070C39A /* XJHAppDelegate.m */,
-				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
 				6003F5A5195388D20070C39A /* XJHViewController.h */,
 				6003F5A6195388D20070C39A /* XJHViewController.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
@@ -193,7 +190,6 @@
 				75DFE2B5DBFDF8E9B7CE5DD6 /* Pods-XJHNetworkInterceptorKit_Tests.debug.xcconfig */,
 				D4DBB20BABE1451C73AD0F9D /* Pods-XJHNetworkInterceptorKit_Tests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -258,6 +254,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -277,7 +274,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
@@ -346,10 +342,12 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-XJHNetworkInterceptorKit_Example/Pods-XJHNetworkInterceptorKit_Example-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ReactiveObjC/ReactiveObjC.framework",
 				"${BUILT_PRODUCTS_DIR}/XJHNetworkInterceptorKit/XJHNetworkInterceptorKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ReactiveObjC.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/XJHNetworkInterceptorKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
