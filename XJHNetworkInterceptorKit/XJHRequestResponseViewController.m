@@ -172,6 +172,32 @@
     [self.view addSubview:self.tableView];
     self.searchBar.frame = CGRectMake(0, EM_NAVBAR_HEIGHT, SCREEN_WIDTH, 44);
     self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.searchBar.frame), SCREEN_WIDTH, self.view.frame.size.height - CGRectGetMaxY(self.searchBar.frame));
+    
+    NSArray *viewcontrollers = self.navigationController.viewControllers;
+    if (viewcontrollers.count <= 1) {
+        self.navigationItem.leftBarButtonItem = ({
+            UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:({
+                UIBarButtonSystemItem style = UIBarButtonSystemItemStop;
+                if (@available(iOS 13.0, *)) {
+                    style = UIBarButtonSystemItemClose;
+                }
+                style;
+            }) target:nil action:nil];
+            @weakify(self)
+            item.rac_command = [[RACCommand alloc] initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
+                return [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
+                    @strongify(self)
+                    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                        
+                    }];
+                    [subscriber sendNext:nil];
+                    [subscriber sendCompleted];
+                    return nil;
+                }];
+            }];
+            item;
+        });
+    }
 }
 
 #pragma mark - Property Methods
