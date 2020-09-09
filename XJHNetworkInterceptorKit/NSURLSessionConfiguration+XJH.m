@@ -18,17 +18,17 @@
 
 + (NSURLSessionConfiguration *)xjh_defaultSessionConfiguration{
     NSURLSessionConfiguration *configuration = [self xjh_defaultSessionConfiguration];
-    [configuration addDoraemonNSURLProtocol];
+    [configuration addXJHNSURLProtocol];
     return configuration;
 }
 
 + (NSURLSessionConfiguration *)xjh_ephemeralSessionConfiguration{
     NSURLSessionConfiguration *configuration = [self xjh_ephemeralSessionConfiguration];
-    [configuration addDoraemonNSURLProtocol];
+    [configuration addXJHNSURLProtocol];
     return configuration;
 }
 
-- (void)addDoraemonNSURLProtocol {
+- (void)addXJHNSURLProtocol {
     if ([self respondsToSelector:@selector(protocolClasses)]
         && [self respondsToSelector:@selector(setProtocolClasses:)]) {
         NSMutableArray * urlProtocolClasses = [NSMutableArray arrayWithArray: self.protocolClasses];
