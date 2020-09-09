@@ -19,6 +19,11 @@
 /*DataSource*/
 #import <XJHNetworkInterceptorKit/XJHNetFlowDataSource.h>
 
+/*Util*/
+#import <XJHNetworkInterceptorKit/XJHUrlUtil.h>
+#import <XJHNetworkInterceptorKit/NSURLRequest+XJH.h>
+#import <XJHNetworkInterceptorKit/NSObject+XJHSwizzle.h>
+
 /*Controller*/
 #import <XJHNetworkInterceptorKit/XJHRequestResponseViewController.h>
 
@@ -33,6 +38,11 @@
 
 /*DataSource*/
 #import "XJHNetFlowDataSource.h"
+
+/*Util*/
+#import "XJHUrlUtil.h"
+#import "NSURLRequest+XJH.h"
+#import "NSObject+XJHSwizzle.h"
 
 /*Controller*/
 #import "XJHRequestResponseViewController.h"

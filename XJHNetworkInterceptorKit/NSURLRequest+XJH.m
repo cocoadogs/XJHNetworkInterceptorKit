@@ -27,4 +27,12 @@
     objc_setAssociatedObject(self, @selector(startTime), startTime, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
+- (BOOL)stop {
+    return [objc_getAssociatedObject(self, @selector(stop)) boolValue];
+}
+
+- (void)setStop:(BOOL)stop {
+    objc_setAssociatedObject(self, @selector(stop), @(stop), OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
 @end

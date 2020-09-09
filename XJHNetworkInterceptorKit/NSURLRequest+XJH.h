@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSNumber *startTime;
 
+@property (nonatomic, assign) BOOL stop;
+
 @end
 
 NS_ASSUME_NONNULL_END
