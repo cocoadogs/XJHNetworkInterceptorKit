@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface XJHNetFlowDetailViewCell : UITableViewCell
 
 - (void)renderUIWithContent:(NSString *)content isFirst:(BOOL)isFirst isLast:(BOOL)isLast;
-+ (CGFloat)cellHeightWithContent:(NSString *)content;
 
 @end
 

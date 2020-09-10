@@ -38,8 +38,15 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) NSInteger selectedSegmentIndex;//当前选中的tab
 
-@property (nonatomic, copy) NSArray* requestArray;
-@property (nonatomic, copy) NSArray* responseArray;
+@property (nonatomic, copy) NSArray<NSDictionary<NSString *, NSArray *> *> *requestArray;
+@property (nonatomic, copy) NSArray<NSDictionary<NSString *, NSArray *> *> *responseArray;
+
+@property (nonatomic, copy) NSArray<NSArray<NSNumber *> *> *requestHeightArray;
+@property (nonatomic, copy) NSArray<NSArray<NSNumber *> *> *responseHeightArray;
+
+@property (nonatomic, assign) CGFloat widthMinuslandscape32;
+
+@property (nonatomic, assign) CGFloat landscape28;
 
 @end
 
@@ -50,6 +57,9 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
     // Do any additional setup after loading the view.
 	[self bindViewModel];
     [self buildUI];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self calculateCellHeights:NetFlowSelectStateForResponse];
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,23 +78,13 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger row = 0;
-    if (_selectedSegmentIndex == NetFlowSelectStateForRequest) {
-        switch (section) {
-            case 0:
-                row = 2;
-                break;
-            default:
-                row = 1;
-                break;
-        }
-    } else {
-        switch (section) {
-            case 0:
-                row = 2;
-            default:
-                row = 1;
-                break;
-        }
+    switch (section) {
+        case 0:
+            row = 2;
+            break;
+        default:
+            row = 1;
+            break;
     }
     return row;
 }
@@ -116,11 +116,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
         content = itemInfo[@"dataArray"][row];
     }
     if (section == 0) {
-        if (row==0) {
-            [cell renderUIWithContent:content isFirst:YES isLast:NO];
-        } else if (row==1) {
-            [cell renderUIWithContent:content isFirst:NO isLast:YES];
-        }
+        [cell renderUIWithContent:content isFirst:row == 0 isLast:row == 1];
     } else if(section == 1) {
         [cell renderUIWithContent:content isFirst:YES isLast:YES];
     } else if(section == 2) {
@@ -134,15 +130,8 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
 #pragma mark - UITableViewDelegate Methods
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *content;
-    if (_selectedSegmentIndex == NetFlowSelectStateForRequest) {
-        NSDictionary *itemInfo = _requestArray[indexPath.section];
-        content = itemInfo[@"dataArray"][indexPath.row];
-    } else {
-        NSDictionary *itemInfo = _responseArray[indexPath.section];
-        content = itemInfo[@"dataArray"][indexPath.row];
-    }
-    return [XJHNetFlowDetailViewCell cellHeightWithContent:content];
+    NSArray<NSArray<NSNumber *> *> *heights = _selectedSegmentIndex == NetFlowSelectStateForRequest ? _requestHeightArray : _responseHeightArray;
+    return heights[indexPath.section][indexPath.row].floatValue;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -150,7 +139,7 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 0.1;
+    return CGFLOAT_MIN;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -212,7 +201,28 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
 
 #pragma mark - Private Methods
 
-- (void)initData {
+- (void)calculateCellHeights:(NetFlowSelectState)state {
+    NSArray<NSDictionary<NSString *, NSArray *> *> *data = (state == NetFlowSelectStateForResponse ? _responseArray : _requestArray);
+    NSMutableArray<NSMutableArray<NSNumber *> *> *list = [[NSMutableArray<NSMutableArray<NSNumber *> *> alloc] initWithCapacity:data.count];
+    for (NSDictionary<NSString *, NSArray *> *dict in data) {
+        NSArray *array = dict[@"dataArray"];
+        NSMutableArray<NSNumber *> *heightList = [[NSMutableArray<NSNumber *> alloc] initWithCapacity:2];
+        for (NSString *string in array) {
+            CGSize size = calcTextSizeV2(CGSizeMake(self.widthMinuslandscape32, MAXFLOAT), string, 0, [UIFont systemFontOfSize:16]);
+            CGFloat result = size.height + self.landscape28;
+            [heightList addObject:@(result)];
+        }
+        [list addObject:heightList];
+    }
+    state == NetFlowSelectStateForResponse ? (_responseHeightArray = list.copy) : (_requestHeightArray = list.copy);
+}
+
+#pragma mark - ViewModel Bind Method
+
+- (void)bindViewModel {
+    self.widthMinuslandscape32 = SCREEN_WIDTH-2*kXJHSizeFrom750_Landscape(32);
+    self.landscape28 = kXJHSizeFrom750_Landscape(28)*2;
+    
     NSString *requestDataSize = [NSString stringWithFormat:@"Size : %@",[XJHUrlUtil formatByte:[self.httpModel.uploadFlow floatValue]]];
     NSString *method = [NSString stringWithFormat:@"Method : %@",self.httpModel.method];
     NSString *linkUrl = self.httpModel.url;
@@ -277,14 +287,8 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
                           @"dataArray":@[responseBody]
                           }
                       ];
-    
     _selectedSegmentIndex = NetFlowSelectStateForRequest;
-}
-
-#pragma mark - ViewModel Bind Method
-
-- (void)bindViewModel {
-    [self initData];
+    [self calculateCellHeights:NetFlowSelectStateForRequest];
 }
 
 #pragma mark - Build UI Method
@@ -317,9 +321,6 @@ typedef NS_ENUM(NSUInteger, NetFlowSelectState) {
         [_tableView registerClass:[XJHNetFlowDetailViewCell class] forCellReuseIdentifier:@"kXJHNetFlowDetailViewCellIdentifier"];
         _tableView.delegate = self;
         _tableView.dataSource = self;
-        _tableView.estimatedRowHeight = 0.;
-        _tableView.estimatedSectionFooterHeight = 0.;
-        _tableView.estimatedSectionHeaderHeight = 0.;
     }
     return _tableView;
 }

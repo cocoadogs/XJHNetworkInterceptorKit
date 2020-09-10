@@ -25,14 +25,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSData *)getHttpBodyFromRequest:(NSURLRequest *)request;
 
-
-
 + (NSString *)dateFormatTimeInterval:(NSTimeInterval)timeInterval;
 
 // byte格式化为 B KB MB 方便流量查看
 + (NSString *)formatByte:(CGFloat)byte;
 
+CGSize calcTextSize(CGSize fitsSize, id text, NSInteger numberOfLines, UIFont *font, NSTextAlignment textAlignment, NSLineBreakMode lineBreakMode, CGFloat minimumScaleFactor, CGSize shadowOffset);
 
+CGSize calcTextSizeV2(CGSize fitsSize, id text, NSInteger numberOfLines, UIFont *font);
 
 @end
 

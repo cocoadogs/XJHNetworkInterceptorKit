@@ -6,6 +6,7 @@
 //
 
 #import "XJHNetFlowDetailViewCell.h"
+#import <YYText/YYTextView.h>
 
 #define SCREEN_WIDTH  [[UIScreen mainScreen] bounds].size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -19,7 +20,7 @@
 
 @interface XJHNetFlowDetailViewCell ()
 
-@property (nonatomic, strong) UITextView *contentLabel;
+@property (nonatomic, strong) YYTextView *contentLabel;
 @property (nonatomic, strong) UIView *upLine;
 @property (nonatomic, strong) UIView *downLine;
 
@@ -52,12 +53,11 @@
         self.selectionStyle =  UITableViewCellSelectionStyleNone;
         //大文本显示的时候，UIlabel在模拟器上会显示空白，使用TextView代替。
         //网上相似问题： https://blog.csdn.net/minghuyong2016/article/details/82882314
-        _contentLabel = [XJHNetFlowDetailViewCell genTextView:16.0];
         if (@available(iOS 13.0, *)) {
             self.backgroundColor = [UIColor systemBackgroundColor];
-            _contentLabel.textColor = [UIColor labelColor];
+            self.contentLabel.textColor = [UIColor labelColor];
         } else {
-            _contentLabel.textColor = [UIColor blackColor];
+            self.contentLabel.textColor = [UIColor blackColor];
         }
         _contentLabel.editable = NO;
         [self.contentView addSubview:_contentLabel];
@@ -79,10 +79,13 @@
 
 - (void)renderUIWithContent:(NSString *)content isFirst:(BOOL)isFirst isLast:(BOOL)isLast{
     _contentLabel.text = content;
-    CGSize fontSize = [_contentLabel sizeThatFits:CGSizeMake(SCREEN_WIDTH-kXJHSizeFrom750_Landscape(32)*2, MAXFLOAT)];
+    
+    CGSize fontSize = CGSizeMake(SCREEN_WIDTH - 2 * kXJHSizeFrom750_Landscape(32), self.contentView.bounds.size.height);
+    
     _contentLabel.frame = CGRectMake(kXJHSizeFrom750_Landscape(32), kXJHSizeFrom750_Landscape(28), fontSize.width, fontSize.height);
     
-    CGFloat cellHeight = [[self class] cellHeightWithContent:content];
+    CGFloat cellHeight = self.contentView.bounds.size.height;
+    
     if(isFirst && isLast){
         _upLine.hidden = NO;
         _upLine.frame = CGRectMake(0, 0, SCREEN_WIDTH, 0.5);
@@ -104,20 +107,14 @@
     }
 }
 
-+ (CGFloat)cellHeightWithContent:(NSString *)content{
-    UITextView *tempLabel = [XJHNetFlowDetailViewCell genTextView:16.0];
-    tempLabel.text = content;
-    CGSize fontSize = [tempLabel sizeThatFits:CGSizeMake(SCREEN_WIDTH-2*kXJHSizeFrom750_Landscape(32), MAXFLOAT)];
-    return fontSize.height+kXJHSizeFrom750_Landscape(28)*2;
-}
-
 #pragma mark - Private Methods
 
-/// 生成 UITextView
-+ (UITextView *)genTextView:(CGFloat)fontSize {
-    UITextView *tempTextView = [[UITextView alloc] init];
-    tempTextView.font = [UIFont systemFontOfSize:fontSize];
-    return tempTextView;
+- (YYTextView *)contentLabel {
+    if (!_contentLabel) {
+        _contentLabel = [[YYTextView alloc] init];
+        _contentLabel.font = [UIFont systemFontOfSize:16];
+    }
+    return _contentLabel;
 }
 
 @end
