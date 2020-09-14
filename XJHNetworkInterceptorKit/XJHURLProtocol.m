@@ -76,8 +76,6 @@ static NSString * const kXJHURLProtocolKey = @"xjhurl_protocol_key";
     NSMutableArray *        calculatedModes;
     NSString *              currentMode;
     
-    NSAssert(!(self.clientThread || self.task || self.modes), @"XJHURLProtocol:clientThread or task or modes is not nil");
-    
     calculatedModes = [NSMutableArray array];
     [calculatedModes addObject:NSDefaultRunLoopMode];
     currentMode = [[NSRunLoop currentRunLoop] currentMode];
@@ -86,25 +84,17 @@ static NSString * const kXJHURLProtocolKey = @"xjhurl_protocol_key";
     }
     self.modes = calculatedModes;
     
-    NSAssert(self.modes.count > 0, @"XJHURLProtocol:self.modes is empty");
-    
     recursiveRequest = [[self request] mutableCopy];
-    
-    NSAssert(recursiveRequest, @"XJHURLProtocol:recursiveRequest is nil");
     
     self.clientThread = [NSThread currentThread];
     self.data = [NSMutableData data];
     self.startTime = [[NSDate date] timeIntervalSince1970];
     self.task = [[[self class] sharedDemux] dataTaskWithRequest:recursiveRequest delegate:self modes:self.modes];
     
-    NSAssert(self.task, @"XJHURLProtocol:task is nil");
-    
     [self.task resume];
 }
 
 - (void)stopLoading {
-    NSAssert(self.clientThread && [NSThread currentThread] == self.clientThread, @"XJHURLProtocol: self.clientThread is nil or self.clientThread is not current thread");
-    
     [[XJHNetworkInterceptor sharedInstance] handleResultWithData:self.data
                                                         response:self.response
                                                          request:self.request
@@ -124,7 +114,6 @@ static NSString * const kXJHURLProtocolKey = @"xjhurl_protocol_key";
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
 didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler {
-    NSAssert([NSThread currentThread] == self.clientThread, @"self.clientThread is not current thread");
     self.response = response;
     [self.client URLProtocol:self didReceiveResponse:response cacheStoragePolicy:NSURLCacheStorageNotAllowed];
     completionHandler(NSURLSessionResponseAllow);
@@ -132,7 +121,6 @@ didReceiveResponse:(NSURLResponse *)response
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data {
-    NSAssert([NSThread currentThread] == self.clientThread, @"self.clientThread is not current thread");
     [self.data appendData:data];
     [self.client URLProtocol:self didLoadData:data];
 }
@@ -140,7 +128,6 @@ didReceiveResponse:(NSURLResponse *)response
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
 didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
  completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential * _Nullable credential))completionHandler {
-    NSAssert([NSThread currentThread] == self.clientThread, @"self.clientThread is not current thread");
     //判断服务器返回的证书类型, 是否是服务器信任
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
         //强制信任

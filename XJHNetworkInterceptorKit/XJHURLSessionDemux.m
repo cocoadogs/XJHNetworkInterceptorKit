@@ -33,7 +33,6 @@
 @implementation XJHURLSessionDemuxTaskInfo
 
 - (instancetype)initWithTask:(NSURLSessionDataTask *)task delegate:(id<NSURLSessionDataDelegate>)delegate modes:(NSArray *)modes {
-    NSAssert(task && delegate && modes, @"XJHURLSessionDemuxTaskInfo:task or delegate or modes is empty!");
     
     self = [super init];
     if (self != nil) {
@@ -46,12 +45,10 @@
 }
 
 - (void)performBlock:(dispatch_block_t)block {
-    NSAssert(self.delegate && self.thread, @"XJHURLSessionDemuxTaskInfo:delegate or thread is nil!");
     [self performSelector:@selector(performBlockOnClientThread:) onThread:self.thread withObject:[block copy] waitUntilDone:NO modes:self.modes];
 }
 
 - (void)performBlockOnClientThread:(dispatch_block_t)block {
-    NSAssert([NSThread currentThread] == self.thread, @"XJHURLSessionDemuxTaskInfo:current thread dosn't match self.thread!");
     block();
 }
 
@@ -99,7 +96,6 @@
 #pragma mark - Public Methods
 
 - (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request delegate:(id<NSURLSessionDataDelegate>)delegate modes:(NSArray *)modes {
-    NSAssert(delegate && request, @"XJHURLSessionDemuxTaskInfo:delegate or request is nil!");
     
     NSURLSessionDataTask *task;
     XJHURLSessionDemuxTaskInfo *taskInfo;
@@ -109,24 +105,23 @@
     }
     
     task = [self.session dataTaskWithRequest:request];
-    
-    NSAssert(task, @"XJHURLSessionDemuxTaskInfo:task is nil!");
-    
     taskInfo = [[XJHURLSessionDemuxTaskInfo alloc] initWithTask:task delegate:delegate modes:modes];
     
-    @synchronized (self) {
-        self.taskInfoByTaskID[@(task.taskIdentifier)] = taskInfo;
+    if (task && taskInfo) {
+        @synchronized (self) {
+            self.taskInfoByTaskID[@(task.taskIdentifier)] = taskInfo;
+        }
     }
     
     return task;
 }
 
 - (XJHURLSessionDemuxTaskInfo *)taskInfoForTask:(NSURLSessionTask *)task {
-    NSAssert(task, @"XJHURLSessionDemuxTaskInfo:task is nil!");
     XJHURLSessionDemuxTaskInfo *result;
-    @synchronized (self) {
-        result = self.taskInfoByTaskID[@(task.taskIdentifier)];
-        NSAssert(result, @"XJHURLSessionDemuxTaskInfo:result is nil!");
+    if (task) {
+        @synchronized (self) {
+            result = self.taskInfoByTaskID[@(task.taskIdentifier)];
+        }
     }
     return result;
 }
