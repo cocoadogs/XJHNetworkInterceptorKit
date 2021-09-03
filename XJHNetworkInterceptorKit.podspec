@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'XJHNetworkInterceptorKit'
-  s.version          = '0.1.5'
+  s.version          = '0.1.6'
   s.summary          = 'XJHNetworkInterceptorKit is a Kit of URLSession Interceptor.'
 
 # This description is used to generate tags and improve search results.
@@ -53,6 +53,7 @@ Pod::Spec.new do |s|
     ss.dependency 'XJHNetworkInterceptorKit/Cell'
     ss.dependency 'XJHNetworkInterceptorKit/View'
     ss.dependency 'XJHNetworkInterceptorKit/ViewModel'
+    ss.dependency 'XJHNetworkInterceptorKit/Manager'
   end
   
   s.subspec 'Cell' do |ss|

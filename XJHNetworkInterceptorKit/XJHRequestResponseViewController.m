@@ -11,6 +11,7 @@
 #import "XJHRequestResponseSearchViewController.h"
 #import "XJHNetworkInterceptorViewCell.h"
 #import "XJHRequestResponseViewModel.h"
+#import "XJHNetFlowManager.h"
 #import <ReactiveObjC/ReactiveObjC.h>
 
 #define SCREEN_WIDTH  [[UIScreen mainScreen] bounds].size.width
@@ -31,6 +32,8 @@
 @property (nonatomic, assign) BOOL searching;
 
 @property (nonatomic, strong) UIBarButtonItem *clearItem;
+
+@property (nonatomic, strong) UIBarButtonItem *switchItem;
 
 @property (nonatomic, strong) XJHRequestResponseSearchViewController *searchVC;
 
@@ -167,7 +170,7 @@
 	self.navigationItem.title = @"Request & Response";
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.navigationItem.rightBarButtonItem = self.clearItem;
+    self.navigationItem.rightBarButtonItems = @[self.clearItem, self.switchItem];
     [self.view addSubview:self.searchBar];
     [self.view addSubview:self.tableView];
     self.searchBar.frame = CGRectMake(0, EM_NAVBAR_HEIGHT, SCREEN_WIDTH, 44);
@@ -247,6 +250,20 @@
         _clearItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:nil action:nil];
     }
     return _clearItem;
+}
+
+- (UIBarButtonItem *)switchItem {
+    if (!_switchItem) {
+        _switchItem = [[UIBarButtonItem alloc] initWithCustomView:({
+            UISwitch *onBtn = [[UISwitch alloc] init];
+            [[onBtn rac_newOnChannel] subscribeNext:^(NSNumber * _Nullable x) {
+                [[XJHNetFlowManager sharedInstance] canInterceptNetFlow:x.boolValue];
+            }];
+            onBtn.on = [XJHNetFlowManager sharedInstance].canIntercept;
+            onBtn;
+        })];
+    }
+    return _switchItem;
 }
 
 
